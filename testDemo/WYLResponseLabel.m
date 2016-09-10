@@ -8,10 +8,17 @@
 
 #import "WYLResponseLabel.h"
 
+
+#define SelectedColor [UIColor colorWithRed:234/255.0 green:234/255.0 blue:234/255.0 alpha:1.0]
+
 @implementation WYLResponseLabel
 
+{
+    UIColor * _fontBackColor;
+}
 
 - (void)attachTapHandle {
+    _fontBackColor = self.backgroundColor;
     self.userInteractionEnabled = YES;
     UITapGestureRecognizer * tap = [UITapGestureRecognizer.alloc initWithTarget:self action:@selector(tapAction:)];
     tap.numberOfTapsRequired = 2;
@@ -19,10 +26,15 @@
     
     UIMenuItem * copyLink = [self createMenuItem:@"复制" action:@selector(copyAction:)];
     [self.menuItems addObject:copyLink];
+    
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuWillHiden:) name:UIMenuControllerWillShowMenuNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuWillHiden:) name:UIMenuControllerWillHideMenuNotification object:nil];
 }
 - (void)tapAction:(UITapGestureRecognizer *)recoginzer {
     [self becomeFirstResponder];
     [self menuUpdate];
+    
+    self.backgroundColor = SelectedColor;
 }
 
 
@@ -51,6 +63,15 @@
 
 - (UIMenuItem *)createMenuItem:(NSString *)title action:(SEL)action {
     return [UIMenuItem.alloc initWithTitle:title action:action];
+}
+
+#pragma mark -menu will show/hiden-
+- (void)menuWillShow:(id)menu {
+    
+}
+
+- (void)menuWillHiden:(id)menu {
+    self.backgroundColor = _fontBackColor;
 }
 
 #pragma mark -复制剪贴板-
