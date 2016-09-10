@@ -8,6 +8,9 @@
 
 #import "ViewController.h"
 
+#import "TPKeyboardAvoidingScrollView.h"
+#import "WYLResponseLabel.h"
+
 @interface ViewController ()
 
 @end
@@ -17,6 +20,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    WYLResponseLabel * label = [WYLResponseLabel.alloc initWithFrame:CGRectMake(100, 100, 200, 20)];
+    label.text = @"asdasdasdas";
+    [label attachTapHandle];
+    
+    //[label addTitle:@"秋天" action:@selector(action)];
+    [self.view addSubview:label];
+}
+
+- (void)action {
+    NSLog(@"12312312314124");
 }
 
 - (void)didReceiveMemoryWarning {
